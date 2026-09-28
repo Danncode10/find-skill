@@ -1,8 +1,6 @@
 # find-skill
 
-A low-context skill routing agent for Claude, Antigravity, and Codex.
-
-Reduces context usage by up to 30x when searching for the right agent skill.
+Eliminate AI hallucinations and achieve up to **30x less context usage**! **find-skill** uses **jev** for ultimate context optimization, perfectly routing your prompts to the exact skill, rule, or command in massive registries. The essential routing agent for **Antigravity**, **Claude**, and **Codex** developers to save tokens, execute faster, and stop guess-work.
 
 ---
 
