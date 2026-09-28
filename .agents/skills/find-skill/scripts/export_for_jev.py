@@ -100,7 +100,7 @@ def scrape_commands(commands_dir):
 
 
 def scrape_rules(rules_dir):
-    """Reads .agents/rules/*.md — extracts first heading + first paragraph as description."""
+    """Reads .agents/rules/*.md — extracts larger body to improve keyword hits."""
     entries = []
     if not os.path.isdir(rules_dir):
         return entries
@@ -109,23 +109,23 @@ def scrape_rules(rules_dir):
             continue
         fpath = os.path.join(rules_dir, fname)
         rule_name = fname[:-3]  # strip .md
-        description = ""
         with open(fpath, "r", encoding="utf-8", errors="ignore") as f:
             content = f.read()
+        
         # Extract first H1/H2 heading
         h_match = re.search(r'^#{1,2}\s+(.+)$', content, re.MULTILINE)
-        # Extract first non-empty paragraph after heading
-        para_match = re.search(r'^#{1,2}[^\n]*\n+([^#\n][^\n]{20,})', content, re.MULTILINE)
         title = h_match.group(1).strip() if h_match else rule_name
-        body  = para_match.group(1).strip()[:180] if para_match else ""
-        description = f"{title} — {body}" if body else title
-        if description:
-            entries.append({
-                "type": "rule",
-                "name": rule_name,
-                "path": f".agents/rules/{fname}",
-                "description": description,
-            })
+        
+        # Read the first 1500 chars to heavily increase keyword hit probability
+        body = content.replace('\n', ' ')[:1500]
+        description = f"{title} — {body}"
+        
+        entries.append({
+            "type": "rule",
+            "name": rule_name,
+            "path": f".agents/rules/{fname}",
+            "description": description,
+        })
     return entries
 
 
@@ -192,6 +192,12 @@ def format_full_catalog(skills, commands, rules):
 
 def format_filtered_output(scored_agents, scored_rules, prompt, top_n):
     top = scored_agents[:top_n]
+    
+    # Calculate percentage based on max score
+    max_agent_score = max([s for s, e in scored_agents]) if scored_agents else 1
+    max_rule_score = max([s for s, e in scored_rules]) if scored_rules else 1
+    max_overall = max(max_agent_score, max_rule_score)
+
     lines = [
         "=" * 70,
         f"jev-ready skill picker — Top {top_n} candidates",
@@ -203,9 +209,10 @@ def format_filtered_output(scored_agents, scored_rules, prompt, top_n):
     paths = []
     for score, entry in top:
         tag = entry["type"].upper()
-        lines.append(f"[{tag}] {entry['name']}  (relevance: {score})")
+        pct = min(100, int((score / max_overall) * 100))
+        lines.append(f"[{tag}] {entry['name']}  (relevance: {pct}%)")
         lines.append(f"  {entry['description'][:220]}")
-        lines.append(f"  -> {entry['path']}")
+        lines.append(f"  -> {entry['path']} ------- {pct}%")
         lines.append("")
         paths.append(entry["path"])
 
@@ -214,9 +221,10 @@ def format_filtered_output(scored_agents, scored_rules, prompt, top_n):
     if scored_rules:
         lines.append("--- RELEVANT RULES TO READ BEFORE EXECUTING ---")
         for score, entry in scored_rules[:3]:
-            lines.append(f"[RULE] {entry['name']}  (relevance: {score})")
+            pct = min(100, int((score / max_overall) * 100))
+            lines.append(f"[RULE] {entry['name']}  (relevance: {pct}%)")
             lines.append(f"  {entry['description'][:220]}")
-            lines.append(f"  -> {entry['path']}")
+            lines.append(f"  -> {entry['path']} ------- {pct}%")
             lines.append("")
             rule_paths.append(entry["path"])
 
