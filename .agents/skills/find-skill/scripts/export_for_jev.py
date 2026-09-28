@@ -153,7 +153,7 @@ def extract_keywords(prompt):
 def format_full_catalog(skills, commands, rules):
     lines = [
         "=" * 70,
-        "DANNFLOW AGENT & SKILL CATALOG — for jev / external AI selection",
+        "FIND-SKILL AGENT & SKILL CATALOG — for jev / external AI selection",
         "=" * 70,
         "",
         "INSTRUCTIONS FOR jev:",
@@ -254,7 +254,7 @@ def format_filtered_output(scored_agents, scored_rules, prompt, top_n):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Export DannFlow agent catalog for jev AI selection.")
+    parser = argparse.ArgumentParser(description="Export find-skill agent catalog for jev AI selection.")
     parser.add_argument("--prompt", "-p", type=str, default="", help="Task prompt to filter by")
     parser.add_argument("--top", "-t", type=int, default=5, help="Number of top results (default 5)")
     parser.add_argument("--full", action="store_true", help="Always output full catalog")
