@@ -1,0 +1,45 @@
+{
+  "build": [
+    "web",
+    "app",
+    "saas",
+    "landing",
+    "page",
+    "dashboard"
+  ],
+  "design": [
+    "ui",
+    "ux",
+    "figma",
+    "prototype",
+    "wireframe"
+  ],
+  "code": [
+    "review",
+    "refactor",
+    "debug",
+    "optimize",
+    "test"
+  ],
+  "seo": [
+    "search",
+    "engine",
+    "optimization",
+    "ranking",
+    "keywords"
+  ],
+  "security": [
+    "audit",
+    "scan",
+    "vulnerability",
+    "penetration",
+    "test"
+  ],
+  "automation": [
+    "script",
+    "workflow",
+    "pipeline",
+    "ci",
+    "cd"
+  ]
+}

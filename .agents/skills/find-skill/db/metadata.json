@@ -1,0 +1,40 @@
+{
+  "skills": [
+    {
+      "type": "skill",
+      "id": "find-skill",
+      "path": ".agents/skills/find-skill/SKILL.md",
+      "name": "find-skill",
+      "description": "Search and evaluate the best 2-5 skills/commands to run for a given user prompt. Runs export_for_jev.py to scrape live .agents/skills and .claude/commands descriptions, produces a ranked multi-agent recommendation, and outputs a jev-ready verification block for external AI to confirm or correct the selection. Use when asked to find the right agent, search for a skill, route a task, or when the user prompt is ambiguous.",
+      "tags": [],
+      "content_hash": "a6017c4a"
+    }
+  ],
+  "commands": [
+    {
+      "type": "command",
+      "id": "/find-skill-opt",
+      "path": ".claude/commands/find-skill-opt.md",
+      "name": "/find-skill-opt",
+      "description": "Cost-optimized skill finder using pre-computed database (95% token savings)",
+      "tags": [],
+      "content_hash": "51dddfac"
+    },
+    {
+      "type": "command",
+      "id": "/find-skill",
+      "path": ".claude/commands/find-skill.md",
+      "name": "/find-skill",
+      "description": "Finds the best 2-5 skills/commands/rules for your task and outputs a single copy-pasteable prompt block. NEVER reads skill files. NEVER executes the task. NEVER analyzes attached files or context. For 95% token savings, use /find-skill-opt.",
+      "tags": [],
+      "content_hash": "d74c160a"
+    }
+  ],
+  "rules": [],
+  "stats": {
+    "total_skills": 1,
+    "total_commands": 2,
+    "total_rules": 0,
+    "created_at": 1791009581.2063634
+  }
+}
